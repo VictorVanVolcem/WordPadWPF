@@ -69,7 +69,7 @@ namespace NotePad.wpf
         }
         private void mnuSaveAs_Click(object sender, RoutedEventArgs e)
         {
-
+            SaveAs();
         }
         private void MnuExit_Click(object sender, RoutedEventArgs e)
         {
@@ -93,7 +93,6 @@ namespace NotePad.wpf
             else
                 rowFooter.Height = new GridLength(0);
         }
-
 
         // Wordpad events
         private void txtWordpad_KeyUp(object sender, KeyEventArgs e)
@@ -147,7 +146,6 @@ namespace NotePad.wpf
             }
         }
 
-
         // Custom methodes
         private void CheckWordpadLineIndex()
         {
@@ -182,10 +180,39 @@ namespace NotePad.wpf
             {
                 SaveAs();
             }
+
+            UpdateTitle();
         }
         private void SaveAs()
         {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Text Files | *.txt";
+            saveFileDialog.DefaultExt = "txt";
+            saveFileDialog.ShowDialog();
 
+            try
+            {
+                if (saveFileDialog.FileName != null)
+                {
+                    // Save file data in document
+                    _document.Path = saveFileDialog.FileName;
+                    _document.Title = saveFileDialog.SafeFileName;
+                    _document.Content = txtWordpad.Text;
+
+                    // Save document in our system
+                    StreamWriter sw = new StreamWriter(_document.Path);
+                    sw.Write(_document.Content);
+
+                    sw.Close();
+
+                    _document.Match = true;
+                }
+            }
+            catch
+            {
+            }
+            
+            UpdateTitle();
         }
         private void UpdateTitle()
         {
