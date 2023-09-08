@@ -70,7 +70,7 @@
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" >
             <TextBox x:Name="txtWordpad" Grid.Row="1" Background="Transparent" Foreground="{StaticResource ForegroundText}" 
                  BorderThickness="0" Padding="10" FontSize="16" FontFamily="Lucida Console" CaretBrush="White"
-                 AcceptsReturn="True" TextWrapping="Wrap" KeyUp="txtWordpad_KeyUp" MouseMove="txtWordpad_MouseMove"/>
+                 AcceptsReturn="True" TextWrapping="Wrap" KeyUp="txtWordpad_KeyUp" MouseMove="txtWordpad_MouseMove" TextChanged="txtWordpad_TextChanged"/>
         </ScrollViewer>
 
         <!--Footer-->

@@ -48,8 +48,8 @@ namespace NotePad.wpf
 
                     // Show the file text in the notepad area
                     StreamReader FileReader = new StreamReader(openFileDialog.FileName);
-                    var documentContent = FileReader.ReadToEnd();
-                    txtWordpad.Text = documentContent;
+                    _document.Content = FileReader.ReadToEnd();
+                    txtWordpad.Text = _document.Content;
 
                     // Set the window title to the text doc title
                     wndMainWindow.Title = _document.Title + " - NotePad";
@@ -118,6 +118,18 @@ namespace NotePad.wpf
         {
             CheckWordpadLineIndex();
             CheckWordpadColumnIndex();
+        }
+        private void txtWordpad_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            // Check if we have unsaved content
+            if (_document.Content != txtWordpad.Text)
+            {
+                wndMainWindow.Title = _document.Title + "* - WordPad";
+            }
+            else
+            {
+                wndMainWindow.Title = _document.Title + " - WordPad";
+            }
         }
 
 
