@@ -27,6 +27,8 @@ namespace NotePad.wpf
         public MainWindow()
         {
             InitializeComponent();
+
+            UpdateTitle();
         }
 
         // File menu
@@ -65,7 +67,7 @@ namespace NotePad.wpf
         private void mnuSave_Click(object sender, RoutedEventArgs e)
         {
             // Check if the file already exists
-            if(_document.Path != string.Empty)
+            if(_document.Path != null)
             {
                 // If so, get the path
                 StreamWriter saveFileStream = new StreamWriter(_document.Path);
@@ -122,14 +124,17 @@ namespace NotePad.wpf
         private void txtWordpad_TextChanged(object sender, TextChangedEventArgs e)
         {
             // Check if we have unsaved content
-            if (_document.Content != txtWordpad.Text)
+            if(txtWordpad.Text != _document.Content)
             {
-                wndMainWindow.Title = _document.Title + "* - WordPad";
+                _document.Match = false;
             }
             else
             {
-                wndMainWindow.Title = _document.Title + " - WordPad";
+                _document.Match = true;
             }
+
+            // Check if the title needs to update
+            UpdateTitle();
         }
 
 
@@ -154,6 +159,18 @@ namespace NotePad.wpf
         {
 
         }
+        private void UpdateTitle()
+        {
+            if(_document.Match)
+            {
+                Title = _document.Title + " - NotePad";
+            }
+            else
+            {
+                Title = _document.Title + "* - NotePad";
+            }
+        }
 
+        
     }
 }
