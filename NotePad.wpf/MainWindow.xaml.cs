@@ -27,7 +27,6 @@ namespace NotePad.wpf
         public MainWindow()
         {
             InitializeComponent();
-
             UpdateTitle();
         }
 
@@ -66,21 +65,7 @@ namespace NotePad.wpf
         }
         private void mnuSave_Click(object sender, RoutedEventArgs e)
         {
-            // Check if the file already exists
-            if(_document.Path != null)
-            {
-                // If so, get the path
-                StreamWriter saveFileStream = new StreamWriter(_document.Path);
-                // Overwrite the current content with the text in the notepad
-                _document.Content = txtWordpad.Text;
-                // Save the new file
-                saveFileStream.Write(_document.Content);
-                saveFileStream.Close();
-            }
-            else
-            {
-                SaveAs();
-            }
+            Save();
         }
         private void mnuSaveAs_Click(object sender, RoutedEventArgs e)
         {
@@ -88,7 +73,7 @@ namespace NotePad.wpf
         }
         private void MnuExit_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Environment.Exit(0);
         }
 
         // View menu
@@ -136,6 +121,31 @@ namespace NotePad.wpf
             // Check if the title needs to update
             UpdateTitle();
         }
+        private void wndMainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            // Check if there is unsaved progress before closing
+            if (!_document.Match)
+            {
+                e.Cancel = true;
+                var response = MessageBox.Show("Do you want to save your changes before closing?", "Unsaved changes", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
+
+                if (response == MessageBoxResult.No)
+                {
+                    Environment.Exit(0);
+                }
+                else if (response == MessageBoxResult.Yes)
+                {
+                    try
+                    {
+                        Save();
+                        Environment.Exit(0);
+                    }
+                    catch
+                    {
+                    }
+                }
+            }
+        }
 
 
         // Custom methodes
@@ -155,6 +165,24 @@ namespace NotePad.wpf
             // set it as the new line index
             lblColumnCount.Text = intColumn.ToString();
         }
+        private void Save()
+        {
+            // Check if the file already exists
+            if (_document.Path != null)
+            {
+                // If so, get the path
+                StreamWriter saveFileStream = new StreamWriter(_document.Path);
+                // Overwrite the current content with the text in the notepad
+                _document.Content = txtWordpad.Text;
+                // Save the new file
+                saveFileStream.Write(_document.Content);
+                saveFileStream.Close();
+            }
+            else
+            {
+                SaveAs();
+            }
+        }
         private void SaveAs()
         {
 
@@ -171,6 +199,5 @@ namespace NotePad.wpf
             }
         }
 
-        
     }
 }
