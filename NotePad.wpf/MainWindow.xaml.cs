@@ -31,6 +31,35 @@ namespace NotePad.wpf
         }
 
         // File menu
+        private void mnuNew_Click(object sender, RoutedEventArgs e)
+        {
+            // Check if there is unsaved progress before closing
+            if (!_document.Match)
+            {
+                var response = MessageBox.Show("Do you want to save your changes before closing?", "Unsaved changes", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
+
+                if (response == MessageBoxResult.No)
+                {
+                    NewDocument();
+                }
+                else if (response == MessageBoxResult.Yes)
+                {
+                    try
+                    {
+                        Save();
+                        NewDocument();
+                    }
+                    catch
+                    {
+                    }
+                }
+            }
+            else
+            {
+                NewDocument();
+            }
+        }
+    
         private void mnuOpen_Click(object sender, RoutedEventArgs e)
         {
             // Open a file dialog so we can select our text doc
@@ -225,6 +254,11 @@ namespace NotePad.wpf
                 Title = _document.Title + "* - NotePad";
             }
         }
-
+        private void NewDocument()
+        {
+            _document = new Document();
+            txtWordpad.Text = "";
+            UpdateTitle();
+        }
     }
 }

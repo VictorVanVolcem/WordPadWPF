@@ -22,7 +22,7 @@
         <Menu Background="Transparent" VerticalAlignment="Center" VerticalContentAlignment="Center" Foreground="{StaticResource BackgroundText}">
             <!--File-->
             <MenuItem VerticalAlignment="Center" Header="File" >
-                <MenuItem Header="New" InputGestureText="Ctrl+N"/>
+                <MenuItem x:Name="mnuNew" Header="New" InputGestureText="Ctrl+N" Click="mnuNew_Click"/>
                 <MenuItem Header="New window" InputGestureText="Ctrl+Shift+N"/>
                 <MenuItem x:Name="mnuOpen" Header="Open" InputGestureText="Ctrl+O" Click="mnuOpen_Click"/>
                 <MenuItem x:Name="mnuSave" Header="Save" InputGestureText="Ctrl+S" Click="mnuSave_Click"/>

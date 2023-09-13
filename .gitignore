@@ -318,6 +318,13 @@ __pycache__/
 *.odx.cs
 *.xsd.cs
 
+*.suo
+*.user
+_ReSharper.*
+bin
+obj
+packages
+
 # OpenCover UI analysis results
 OpenCover/
 
